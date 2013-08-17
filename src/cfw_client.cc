@@ -132,6 +132,7 @@ void ChannelIoThread()
 		} else {
 			LOG(INFO) << "io thread connect server failed";
 		}
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 	}
 }
 
