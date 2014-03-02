@@ -1,3 +1,4 @@
+#include <signal.h>
 #include <netdb.h>
 #include <sys/socket.h>
 #include <unistd.h>
@@ -356,6 +357,7 @@ int main(int argc, char* argv[])
 	google::InitGoogleLogging(argv[0]);
 	FLAGS_logbufsecs = 0;
 	daemon(1, 1);
+	signal(SIGCHLD, SIG_IGN);
 	LOG(INFO) << "--- cfw_server start ---";
 
 	TcpServerSocket ssk{SockAddrIn(FLAGS_server_port)};
