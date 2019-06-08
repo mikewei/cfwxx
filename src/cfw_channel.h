@@ -73,11 +73,15 @@ void Channel<T>::GarbageCleanup(time_t secs)
 {
 	std::lock_guard<std::mutex> lock(map_mutex_);
 	time_t now = ::time(nullptr);
-	for (auto it : map_) {
+	std::vector<Key> gc_key_list;
+	for (auto& it : map_) {
 		if (it.second->last_active + secs < now) {
 			LOG(INFO) << "garbage cleanup key:" << it.first;
-			map_.erase(it.first);
+			gc_key_list.push_back(it.first);
 		}
+	}
+	for (Key k : gc_key_list) {
+		map_.erase(k);
 	}
 }
 
